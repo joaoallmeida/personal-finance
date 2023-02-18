@@ -1,7 +1,7 @@
 from configparser import ConfigParser
 from pyitau import Itau
-import pandas as pd
-import pywhatkit, logging
+from whatsapp import Whatsapp
+import pandas as pd, logging
 
 logging.basicConfig(level=logging.INFO,format='%(asctime)s - %(levelname)s -> %(message)s')
 logging.getLogger()
@@ -29,9 +29,11 @@ def divide_balance(phone_number:str, agency:str, account:str, account_digit:str,
 
                logging.info('Send whatsapp menssage...')
 
-               message = f'''Mestre, seu saldo na conta esta no valor de : *R${balance:,.2f}*\nsegue abaixo as divisões que eu fiz para que você possa gastar esse valor:\n\nValor para despesas fixas: *R${fifty_percent:,.2f}*\nValor para gastos pessoais: *R${thirty_percent:,.2f}*\nValor para investir: *R${twenty_percent:,.2f}* \n\n\nEm breve trarei o extrato do cartão!!!'''
+               message = f'O saldo na conta esta no valor de: *R${balance:,.2f}*\n\nSegue abaixo as divisões que eu fiz para que você possa gastar esse valor de forma inteligente:\n\nValor para despesas fixas: *R${fifty_percent:,.2f}*\nValor para gastos pessoais: *R${thirty_percent:,.2f}*\nValor para investir: *R${twenty_percent:,.2f}* \n\n\n*Obs:* Em breve trarei o extrato do cartão!!!'
 
-               pywhatkit.sendwhatmsg_instantly(phone_number, message, 10 ,True)
+               whats_client = Whatsapp()
+               whats_client.send_message(phone_number,message)
+
           else:
                logging.warning('Account balance is empty!')
 
@@ -50,6 +52,6 @@ if __name__=="__main__":
      account = config['ITAU']['conta']
      account_digit = config['ITAU']['digito']
      password = config['ITAU']['senha']
-     phone = 'PHONE_NUMBER'
+     phone = '+5511969537543'
 
      divide_balance(phone,agency,account, account_digit, password)

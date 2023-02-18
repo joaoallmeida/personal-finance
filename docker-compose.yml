@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  chrome:
+    image: selenium/standalone-chrome:4.8.0-20230210
+    container_name: chrome
+    shm_size: 2gb
+    ports:
+      - 4444:4444
+      - 7900:7900
+    networks:
+      - personal_finance_net
+    restart: on-failure
+  
+  rpa:
+    image: personal/finance
+    container_name: personal_finance
+    depends_on:
+      - chrome
+    networks:
+      - personal_finance_net
+    restart: on-failure  
+    
+networks:
+  personal_finance_net:
+    external: true
+    
