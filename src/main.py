@@ -52,6 +52,6 @@ if __name__=="__main__":
      account = config['ITAU']['conta']
      account_digit = config['ITAU']['digito']
      password = config['ITAU']['senha']
-     phone = '+5511969537543'
+     phone = 'PHONE_NUMBER WITH POSTAL CODE (BR +55)'
 
      divide_balance(phone,agency,account, account_digit, password)
