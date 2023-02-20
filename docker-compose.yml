@@ -13,7 +13,7 @@ services:
     restart: on-failure
   
   rpa:
-    image: personal/finance
+    build: .
     container_name: personal_finance
     depends_on:
       - chrome
@@ -23,5 +23,5 @@ services:
     
 networks:
   personal_finance_net:
-    external: true
+    driver: bridge
     
