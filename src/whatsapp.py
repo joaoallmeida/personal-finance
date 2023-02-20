@@ -34,32 +34,21 @@ class Whatsapp:
                 command_executor="http://chrome:4444",
                 options=option
             )
-
+            
             driver.get(BASE_URL)
-            logging.info('Waiting 15 secs for page load.')
-            time.sleep(15) # time for wait load page. 
+            logging.info('Waiting 5 secs for page load.')
+            time.sleep(5) # time for wait load page. 
 
-            logging.info('Checking if is the first session.')
-            if self._check_element_exists(driver,By.ID,'initial_startup'): # check if is the first execution.
-
-                logging.info('Waiting to scan the qrcode.')
-                element = WebDriverWait(driver,60).until(
-                    EC.presence_of_element_located((By.CLASS_NAME,'landing-main'))
-                )
-
-                driver.get(MESSAGE_URL)
-                element  = WebDriverWait(driver,60).until(
-                    EC.element_to_be_clickable((By.XPATH,'//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button'))
-                    )
+            while self._check_element_exists(driver,By.ID,'side') == False:
                 
-                logging.info('Sending message.')
-                element.click()
-                logging.info('Message sent successfully')
+                logging.info('Waiting to scan the QRcode.')
+                time.sleep(3)
 
             else:
-                logging.info('Sending message.')
+                logging.info('QRcode scanned, sending message.')
 
                 driver.get(MESSAGE_URL)
+
                 element  = WebDriverWait(driver,60).until(
                     EC.element_to_be_clickable((By.XPATH,'//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button'))
                     )
