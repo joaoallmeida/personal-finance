@@ -14,7 +14,7 @@ services:
   
   rpa:
     build: .
-    container_name: personal_finance
+    container_name: personal-finance
     depends_on:
       - chrome
     networks:

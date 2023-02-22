@@ -1,22 +1,19 @@
 from configparser import ConfigParser
 from pyitau import Itau
 from whatsapp import Whatsapp
+from itauBanking import Bank
 import pandas as pd, logging
 
 logging.basicConfig(level=logging.INFO,format='%(asctime)s - %(levelname)s -> %(message)s')
 logging.getLogger()
 
-def divide_balance(phone_number:str, agency:str, account:str, account_digit:str, password:str):
+def divide_balance(phone_number:str, agency:str, account:str, password:str):
 
      logging.info('Starting divide balance function...')
      try:
-          logging.info('Connecting to bank account')
-          itau_client = Itau(agency=agency, account=account, account_digit=account_digit, password=password)
-          itau_client.authenticate()
-          logging.info('Connection complete.')
 
-          account_balance = itau_client.get_statements()['saldoResumido']
-          balance = float(account_balance["saldoContaCorrente"]['valor'].replace('.', '').replace(',', '.'))
+          bankClass = Bank(agency,account,password)
+          balance, downloadPath = bankClass.get_banking_infos()
 
           if balance > 0:
                logging.info('Calculating division of the account balance...')
@@ -52,6 +49,6 @@ if __name__=="__main__":
      account = config['ITAU']['conta']
      account_digit = config['ITAU']['digito']
      password = config['ITAU']['senha']
-     phone = 'PHONE_NUMBER WITH POSTAL CODE (BR +55)'
+     phone = '+5511969537543'
 
-     divide_balance(phone,agency,account, account_digit, password)
+     divide_balance(phone, agency, account, password)
